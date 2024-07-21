@@ -1,2 +1,3 @@
 # toolbox
-Random miscellaneous scripts and tools
+
+A collection of hacky random miscellaneous scripts and tools.
