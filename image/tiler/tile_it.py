@@ -9,7 +9,7 @@ import argparse
 parser = argparse.ArgumentParser("tile_it")
 parser.add_argument("filename", help="Input file to tile", type=str)
 parser.add_argument('--horizontal', help="Number of horizontal tiles", nargs='?', type=int, default=3)
-parser.add_argument(    '--vertical', help="Number of vertical tiles", nargs='?', type=int, default=3)
+parser.add_argument('--vertical', help="Number of vertical tiles", nargs='?', type=int, default=3)
 parser.add_argument('-f', '--format', help="Output format: jpg, tif, png, pdf", nargs='?', type=str, default="jpg")
 args = parser.parse_args()
 print(args.filename)
@@ -21,7 +21,7 @@ tiles_vert = args.vertical
 
 if not args.format in ["pdf", "tif", "png", "jpg"]:
     print("Opps: {} format not supported".format(args.format)) 
-    exit
+    exit()
 
 basename = os.path.basename(args.filename)
 
@@ -30,8 +30,16 @@ with Image(filename=args.filename) as img:
     img_height = img.height
     print("Image is: width: {} height: {}".format(img_width, img_height))
     
-    tile_width = math.floor(img_width / tiles_horz)
-    tile_height = math.floor(img_height / tiles_vert)
+    tile_width = math.ceil(img_width / tiles_horz)
+    tile_height = math.ceil(img_height / tiles_vert)
+    
+    # check dimensions and resize
+    tiling_image_width = tiles_horz * tile_width
+    tiling_image_height = tiles_vert * tile_height
+    
+    if ((tiling_image_width != img_width) | (tiling_image_height != img_height)):
+        # resize 
+        img.resize(tiling_image_width, tiling_image_height)
     
     print("Tiles: {} wide by {} hight, each {} by {} pixels".format(tiles_horz, tiles_vert, tile_width, tile_height))
     
