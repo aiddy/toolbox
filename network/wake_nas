@@ -1,0 +1,3 @@
+#!/bin/bash
+wakeonlan 00:11:32:a0:75:88
+wakeonlan 00:11:32:a0:75:87
